@@ -1,0 +1,11 @@
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\bin\Debug\netcoreapp2.0\Lab29Erik.deps.json
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\bin\Debug\netcoreapp2.0\Lab29Erik.runtimeconfig.json
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\bin\Debug\netcoreapp2.0\Lab29Erik.runtimeconfig.dev.json
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\bin\Debug\netcoreapp2.0\Lab29Erik.dll
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.csprojResolveAssemblyReference.cache
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.csproj.CoreCompileInputs.cache
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.AssemblyInfoInputs.cache
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.AssemblyInfo.cs
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\bin\Debug\netcoreapp2.0\Lab29Erik.pdb
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.dll
+C:\Users\shop2\source\repos\Lab29-Custom-Policies\Lab29Erik\Lab29Erik\obj\Debug\netcoreapp2.0\Lab29Erik.pdb
