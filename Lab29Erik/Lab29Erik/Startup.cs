@@ -29,6 +29,13 @@ namespace Lab29Erik
         {
             services.AddMvc();
 
+            services.AddAuthorization(options =>
+          options.AddPolicy("Admin Only", policy => policy.RequireClaim("Administrator")));
+
+            services.AddAuthorization(options =>
+            options.AddPolicy("Registered User", policy => policy.RequireClaim("RegisteredUser")));
+
+
             services.AddDbContext<Lab29ErikContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Lab29ErikContext")));
 
@@ -54,10 +61,11 @@ namespace Lab29Erik
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
+            app.Run(async (context) =>
+            {
+                context.Response.Redirect("/Accounts/AccessDenied", false);
+                await context.Response.WriteAsync("Hello World!");
+            });
         }
     }
 }
