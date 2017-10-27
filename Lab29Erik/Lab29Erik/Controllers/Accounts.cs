@@ -1,4 +1,5 @@
 ﻿using Lab29Erik.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,8 +44,32 @@ namespace Lab29Erik.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    const string issure = "www.Erik.com";
+                    //claim list 
+                    List<Claim> myClaims = new List<Claim>();
 
+                    //claim users name is their email adress
+                    Claim claim1 = new Claim(ClaimTypes.Name, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim1);
+
+                    //claim users role 
+                    Claim claim2 = new Claim(ClaimTypes.Role, "RegisterdUser", ClaimValueTypes.String, issure);
+                    myClaims.Add(claim2);
+
+                    //claim for age 
+                    Claim claim3 = new Claim(ClaimTypes.DateOfBirth, user.Birthday.Date.ToString(), ClaimValueTypes.Date, issure);
+                    myClaims.Add(claim3);
+
+                    //claim likes dogs
+                    Claim claim4 = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim4);
+
+                    
+
+                    var addClaims = await _userManager.AddClaimsAsync(user,myClaims);
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 //ModelState.AddModelError("Password", result.Errors.ToList()[0]);e
@@ -66,11 +91,51 @@ namespace Lab29Erik.Controllers
         public async Task<IActionResult> LogIn(LogInViewModel lvm)
         {
             if (ModelState.IsValid)
-            {
+            {   
+                //find user by their email
+                var user = await _userManager.FindByEmailAsync(lvm.Email);
                 var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, lvm.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    const string issure = "www.Erik.com";
+                    //claim list 
+                    List<Claim> myClaims = new List<Claim>();
+
+                    //claim users name is their email adress
+                    Claim claim1 = new Claim(ClaimTypes.Name, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim1);
+
+                    //claim users role 
+                    Claim claim2 = new Claim(ClaimTypes.Role, "RegisterdUser", ClaimValueTypes.String, issure);
+                    myClaims.Add(claim2);
+
+                    //claim for age 
+                    Claim claim3 = new Claim(ClaimTypes.DateOfBirth, user.Birthday.Date.ToString(), ClaimValueTypes.Date);
+                    myClaims.Add(claim3);
+
+                    //claim likes dogs
+                    Claim claim4 = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim4);
+
+                    var userIdentity = new ClaimsIdentity("Registration");
+                    userIdentity.AddClaims(myClaims);
+
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                    User.AddIdentity(userIdentity);
+
+                    await HttpContext.SignInAsync(
+                      "MyCookieLogin", userPrincipal,
+                          new AuthenticationProperties
+                          {
+                              ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                              IsPersistent = false,
+                              AllowRefresh = false
+
+                          });
+
                     return RedirectToAction("Index", "Home");
+
                 }
 
             }
@@ -98,15 +163,32 @@ namespace Lab29Erik.Controllers
 
                 if (result.Succeeded)
                 {
-                    Claim admin = new Claim(ClaimTypes.Role, "Administrator", ClaimValueTypes.String);
-                    var AddClaim = await _userManager.AddClaimAsync(user, admin);
+                    const string issure = "www.Erik.com";
+                    //claim list 
+                    List<Claim> myClaims = new List<Claim>();
 
-                    if (AddClaim.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                    //claim users name is their email adress
+                    Claim claim1 = new Claim(ClaimTypes.Name, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim1);
 
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //claim users role 
+                    Claim claim2 = new Claim(ClaimTypes.Role, "Administrator", ClaimValueTypes.String, issure);
+                    myClaims.Add(claim2);
+
+                    //claim for age 
+                    Claim claim3 = new Claim(ClaimTypes.DateOfBirth, user.Birthday.Date.ToString(), ClaimValueTypes.Date, issure);
+                    myClaims.Add(claim3);
+
+                    //claim likes dogs
+                    Claim claim4 = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim4);
+
+                    var addClaims = await _userManager.AddClaimsAsync(user, myClaims);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("Index", "Home");
+ 
                 }
                 //ModelState.AddModelError("Password", result.Errors.ToList()[0]);
 
@@ -129,10 +211,51 @@ namespace Lab29Erik.Controllers
         {
             if (ModelState.IsValid)
             {
+                //find user by their email
+                var user = await _userManager.FindByEmailAsync(lvm.Email);
                 var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, lvm.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    const string issure = "www.Erik.com";
+                    //claim list 
+                    List<Claim> myClaims = new List<Claim>();
+
+                    //claim users name is their email adress
+                    Claim claim1 = new Claim(ClaimTypes.Name, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim1);
+
+                    //claim users role 
+                    Claim claim2 = new Claim(ClaimTypes.Role, "Administrator", ClaimValueTypes.String, issure);
+                    myClaims.Add(claim2);
+
+                    //claim for age 
+                    Claim claim3 = new Claim(ClaimTypes.DateOfBirth, user.Birthday.Date.ToString(), ClaimValueTypes.Date);
+                    myClaims.Add(claim3);
+
+                    //claim likes dogs
+                    Claim claim4 = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.String, issure);
+                    myClaims.Add(claim4);
+
+                    var userIdentity = new ClaimsIdentity("Registration");
+                    userIdentity.AddClaims(myClaims);
+
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                    User.AddIdentity(userIdentity);
+
+                    await HttpContext.SignInAsync(
+                       "MyCookieLogin", userPrincipal,
+                           new AuthenticationProperties
+                           {
+                               ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                               IsPersistent = false,
+                               AllowRefresh = false
+
+                           });
+
+
                     return RedirectToAction("Index", "Home");
+
                 }
 
             }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab29Erik.Models
 {
-    public class MinimumAgeRequierment : IAuthorizationRequirement 
+    public class MustLikeDogs : IAuthorizationRequirement
     {
     }
 }

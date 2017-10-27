@@ -11,5 +11,6 @@ namespace Lab29Erik.Models
     {
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
+        
     }
 }
