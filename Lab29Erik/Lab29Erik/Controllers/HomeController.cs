@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,11 @@ namespace Lab29Erik.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        [Authorize(Policy = "LikesDogs")]
+        public IActionResult Dogs()
+        {
+            return View("you like dogs");
         }
     }
 }

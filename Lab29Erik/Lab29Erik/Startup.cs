@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Lab29Erik.Models;
 using Lab29Erik.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Lab29Erik
 {
@@ -27,7 +29,30 @@ namespace Lab29Erik
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie("MyCookieLogin", options =>
+                options.AccessDeniedPath = new PathString("/Accounts/AccessDenied/"));
+
             services.AddMvc();
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("Admin Only", policy => policy.RequireClaim("Administrator"));
+
+            });
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("LikesDogs", policy => policy.Requirements.Add(new MustLikeDogs()));
+
+            });
+
+            services.AddAuthorization(options => { 
+                options.AddPolicy("Registered User", policy => policy.RequireClaim("RegisteredUser"));
+                options.AddPolicy("MinAge", policy => policy.Requirements.Add(new MinimumAgeRequierment()));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, LikesDogs>();
+            services.AddSingleton<IAuthorizationHandler, Is21>();
+
 
             services.AddDbContext<Lab29ErikContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Lab29ErikContext")));
@@ -54,10 +79,11 @@ namespace Lab29Erik
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
+            app.Run(async (context) =>
+            {
+                context.Response.Redirect("/Accounts/AccessDenied", false);
+                await context.Response.WriteAsync("Hello World!");
+            });
         }
     }
 }
