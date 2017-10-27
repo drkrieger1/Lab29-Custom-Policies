@@ -39,7 +39,7 @@ namespace Lab29Erik.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = rvm.Email, Email = rvm.Email };
+                var user = new ApplicationUser { UserName = rvm.Email, Email = rvm.Email, Birthday = rvm.Birthday };
                 var result = await _userManager.CreateAsync(user, rvm.Password);
 
                 if (result.Succeeded)
@@ -183,7 +183,7 @@ namespace Lab29Erik.Controllers
                     Claim claim4 = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.String, issure);
                     myClaims.Add(claim4);
 
-                    var addClaims = await _userManager.AddClaimsAsync(user, myClaims);
+                    await _userManager.AddClaimsAsync(user, myClaims);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
